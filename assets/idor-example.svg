@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family="Menlo, Consolas, 'DejaVu Sans Mono', monospace">
+  <rect width="900" height="620" fill="#0d1117"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="900" height="36" fill="#161b22"/>
+  <circle cx="20" cy="18" r="6" fill="#ff5f56"/>
+  <circle cx="42" cy="18" r="6" fill="#ffbd2e"/>
+  <circle cx="64" cy="18" r="6" fill="#27c93f"/>
+  <text x="450" y="23" fill="#8b949e" font-size="13" text-anchor="middle">backend-reviewer — hallazgo real (IDOR)</text>
+
+  <!-- Before panel -->
+  <rect x="16" y="52" width="868" height="248" rx="6" fill="#161b22" stroke="#f85149" stroke-width="1.5"/>
+  <text x="32" y="78" fill="#f85149" font-size="15" font-weight="bold">❌ ANTES — reviewer_id del body nunca se valida contra el tenant</text>
+
+  <text x="32" y="106" fill="#7ee787" font-size="13">@router.patch(<tspan fill="#a5d6ff">"/shift-changes/{change_id}/review"</tspan>)</text>
+  <text x="32" y="128" fill="#ff7b72" font-size="13">def</text>
+  <text x="64" y="128" fill="#d2a8ff" font-size="13">review_shift_change</text>
+  <text x="220" y="128" fill="#c9d1d9" font-size="13">(change_id: int, body: ReviewInput, user=Depends(get_current_user)):</text>
+
+  <text x="52" y="152" fill="#c9d1d9" font-size="13">change = db.query(ShiftChange).filter(</text>
+  <text x="72" y="174" fill="#c9d1d9" font-size="13">ShiftChange.id == change_id,</text>
+  <text x="72" y="196" fill="#c9d1d9" font-size="13">ShiftChange.tenant_id == user.tenant_id,   </text>
+  <text x="400" y="196" fill="#8b949e" font-size="12"># recurso principal SÍ filtra por tenant</text>
+  <text x="52" y="218" fill="#c9d1d9" font-size="13">).first()</text>
+
+  <text x="52" y="244" fill="#8b949e" font-size="12"># body.reviewer_id llega del cliente y NO se valida contra el tenant</text>
+  <text x="52" y="266" fill="#f85149" font-size="13" font-weight="bold">change.reviewer_id = body.reviewer_id</text>
+  <text x="600" y="266" fill="#f85149" font-size="12">← IDOR: acepta un id de OTRO tenant</text>
+  <text x="52" y="288" fill="#c9d1d9" font-size="13">db.commit()</text>
+
+  <!-- After panel -->
+  <rect x="16" y="316" width="868" height="288" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="32" y="342" fill="#3fb950" font-size="15" font-weight="bold">✅ DESPUÉS — el id del body también se valida contra el tenant</text>
+
+  <text x="52" y="370" fill="#c9d1d9" font-size="13">change = db.query(ShiftChange).filter(</text>
+  <text x="72" y="392" fill="#c9d1d9" font-size="13">ShiftChange.id == change_id,</text>
+  <text x="72" y="414" fill="#c9d1d9" font-size="13">ShiftChange.tenant_id == user.tenant_id,</text>
+  <text x="52" y="436" fill="#c9d1d9" font-size="13">).first()</text>
+  <text x="52" y="458" fill="#c9d1d9" font-size="13">if not change: raise HTTPException(404)</text>
+
+  <text x="52" y="486" fill="#7ee787" font-size="13" font-weight="bold">reviewer = db.query(Employee).filter(</text>
+  <text x="72" y="508" fill="#c9d1d9" font-size="13">Employee.id == body.reviewer_id,</text>
+  <text x="72" y="530" fill="#7ee787" font-size="13" font-weight="bold">Employee.tenant_id == user.tenant_id,   </text>
+  <text x="420" y="530" fill="#3fb950" font-size="12">← el id del BODY también se valida</text>
+  <text x="52" y="552" fill="#c9d1d9" font-size="13">).first()</text>
+  <text x="52" y="574" fill="#c9d1d9" font-size="13">if not reviewer: raise HTTPException(400, "Revisor no encontrado en este tenant")</text>
+  <text x="52" y="596" fill="#c9d1d9" font-size="13">change.reviewer_id = reviewer.id</text>
+</svg>

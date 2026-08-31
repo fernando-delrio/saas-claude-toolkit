@@ -9,7 +9,7 @@
     {
       "name": "saas-toolkit",
       "source": "./plugins/saas-toolkit",
-      "description": "4 agentes de revisión (backend, craft, conventions, tests) + skill de arquitectura multi-tenant derivada de una auditoría de seguridad real.",
+      "description": "5 agentes de revisión (backend, craft, conventions, schema, tests) + skill de arquitectura multi-tenant derivada de una auditoría de seguridad real.",
       "category": "development"
     }
   ]
