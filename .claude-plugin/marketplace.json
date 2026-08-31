@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "saas-claude-toolkit",
+  "description": "Agentes de revisión de código y una skill de arquitectura multi-tenant para SaaS, empaquetados como plugin de Claude Code.",
+  "owner": {
+    "name": "Fernando"
+  },
+  "plugins": [
+    {
+      "name": "saas-toolkit",
+      "source": "./plugins/saas-toolkit",
+      "description": "4 agentes de revisión (backend, craft, conventions, tests) + skill de arquitectura multi-tenant derivada de una auditoría de seguridad real.",
+      "category": "development"
+    }
+  ]
+}

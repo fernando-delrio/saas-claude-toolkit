@@ -1,0 +1,8 @@
+{
+  "name": "saas-toolkit",
+  "version": "1.0.0",
+  "description": "4 agentes de revisión de código (backend, craft, conventions, tests) + skill de arquitectura multi-tenant para SaaS derivada de una auditoría de seguridad real.",
+  "author": {
+    "name": "Fernando"
+  }
+}
