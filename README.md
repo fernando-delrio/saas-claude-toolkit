@@ -11,7 +11,7 @@ claude plugin install saas-toolkit@saas-claude-toolkit
 
 ## Qué incluye
 
-**4 agentes** (read-only, invocables con el tool Agent):
+**4 agentes**: 3 de solo lectura (`backend-reviewer`, `craft-reviewer`, `conventions-reviewer`) y 1 que escribe y ejecuta (`test-writer` — tiene Edit, Write y Bash):
 - `backend-reviewer` — seguridad (OWASP) y escalabilidad de backend, cualquier lenguaje.
 - `craft-reviewer` — calidad y legibilidad de código, cualquier lenguaje.
 - `conventions-reviewer` — convenciones de arquitectura frontend (React/Angular/Vue/Svelte).

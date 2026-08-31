@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Zero content changes to the 4 agent files copied from `~/.claude/agents/*.md` — copy verbatim, only the location changes.
-- Every skill/reference file must be free of "weldix", "taller", "soldadura" (case-insensitive) — verified by grep before the repo is considered done.
+- Every skill/reference file must be free of client-identifying terms (the real client's name and industry-specific words, case-insensitive) — verified by grep before the repo is considered done.
 - Repo is public, MIT licensed.
 - Single plugin bundle (not split into multiple plugins) — this is already decided, do not revisit.
 - Skill uses separate reference files (`auth-multitenant.md`, `testing-multitenant.md`, `billing-stripe.md`), not one giant `SKILL.md`, and no executable code templates/scaffolding.
@@ -280,7 +280,7 @@ def review_shift_change(change_id: int, body: ReviewInput, user: User = Depends(
 - [ ] **Step 2: Verify no anonymization leak**
 
 ```bash
-grep -iE "weldix|taller|soldadura" "plugins/saas-toolkit/skills/saas-multitenant-architecture/SKILL.md"
+grep -iE "<client-identifying-terms>" "plugins/saas-toolkit/skills/saas-multitenant-architecture/SKILL.md"
 ```
 Expected: no output (grep exits non-zero / prints nothing). If it prints a match, rewrite that line before continuing.
 
@@ -339,7 +339,7 @@ Un superadmin que puede ver/tocar datos de cualquier tenant es un patrón legít
 - [ ] **Step 2: Verify no anonymization leak**
 
 ```bash
-grep -iE "weldix|taller|soldadura" "plugins/saas-toolkit/skills/saas-multitenant-architecture/auth-multitenant.md"
+grep -iE "<client-identifying-terms>" "plugins/saas-toolkit/skills/saas-multitenant-architecture/auth-multitenant.md"
 ```
 Expected: no output.
 
@@ -422,7 +422,7 @@ Si el test pasa en ambos casos, el test está mal escrito (assert trivial, fixtu
 - [ ] **Step 2: Verify no anonymization leak**
 
 ```bash
-grep -iE "weldix|taller|soldadura" "plugins/saas-toolkit/skills/saas-multitenant-architecture/testing-multitenant.md"
+grep -iE "<client-identifying-terms>" "plugins/saas-toolkit/skills/saas-multitenant-architecture/testing-multitenant.md"
 ```
 Expected: no output.
 
@@ -494,7 +494,7 @@ Cuando llega un webhook, el evento trae `customer` (el id de Stripe) — resuelv
 - [ ] **Step 2: Verify no anonymization leak**
 
 ```bash
-grep -iE "weldix|taller|soldadura" "plugins/saas-toolkit/skills/saas-multitenant-architecture/billing-stripe.md"
+grep -iE "<client-identifying-terms>" "plugins/saas-toolkit/skills/saas-multitenant-architecture/billing-stripe.md"
 ```
 Expected: no output.
 
@@ -562,7 +562,7 @@ MIT — ver [LICENSE](LICENSE).
 - [ ] **Step 2: Verify no anonymization leak**
 
 ```bash
-grep -iE "weldix|taller|soldadura" README.md
+grep -iE "<client-identifying-terms>" README.md
 ```
 Expected: no output.
 
@@ -582,7 +582,7 @@ git commit -m "docs: add README with install instructions and source attribution
 - [ ] **Step 1: Repo-wide anonymization grep**
 
 ```bash
-grep -rniE "weldix|taller|soldadura" --include="*.md" --include="*.json" .
+grep -rniE "<client-identifying-terms>" --include="*.md" --include="*.json" .
 ```
 Expected: no output. If anything matches, go back to the file it's in and rewrite that line before proceeding — do not skip this.
 
@@ -631,7 +631,7 @@ git commit -m "chore: fix anonymization leaks found in final verification pass"
 - `billing-stripe.md` (webhook signature, tenant↔customer_id, what not to do) → Task 6. ✓
 - README with install instructions + attribution table → Task 7. ✓
 - LICENSE (MIT) → Task 1. ✓
-- Verification: plugin installs and lists agents/skill; no "Weldix"/"taller"/"soldadura" mentions → Task 8. ✓
+- Verification: plugin installs and lists agents/skill; no client-identifying mentions → Task 8. ✓
 
 **Placeholder scan:** no TBD/TODO, no "similar to Task N", every step has literal file content or a runnable command. Clean.
 
