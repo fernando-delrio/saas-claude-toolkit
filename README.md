@@ -5,7 +5,7 @@ Plugin de Claude Code que empaqueta 4 agentes de revisión de código y 1 skill 
 ## Instalación
 
 ```bash
-claude plugin marketplace add <ruta-o-url-de-este-repo>
+claude plugin marketplace add https://github.com/fernando-delrio/saas-claude-toolkit.git
 claude plugin install saas-toolkit@saas-claude-toolkit
 ```
 
