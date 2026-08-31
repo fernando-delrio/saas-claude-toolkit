@@ -5,7 +5,7 @@
 Un plugin instalable de Claude Code (`claude plugin install saas-toolkit@...`) que empaqueta:
 
 1. **4 agentes ya existentes** de Fernando (hoy sueltos en `~/.claude/agents/`, sin versionar), copiados tal cual — son genéricos, agnósticos de lenguaje/framework, y ya cubren gran parte de lo que se necesitaba antes de plantear nada nuevo.
-2. **1 skill nueva**: arquitectura para arrancar un SaaS multi-tenant desde cero. Nace directamente de la auditoría de seguridad real hecha hoy sobre Weldix (5 fugas de aislamiento multi-tenant encontradas y corregidas), no de un libro.
+2. **1 skill nueva**: arquitectura para arrancar un SaaS multi-tenant desde cero. Nace directamente de una auditoría de seguridad real hecha hoy sobre un SaaS multi-tenant en producción (5 fugas de aislamiento multi-tenant encontradas y corregidas), no de un libro.
 
 Público, con atribución explícita de las fuentes (libros) que hay detrás de cada agente.
 
@@ -67,7 +67,7 @@ Contenido:
    - Esquema por tenant (mismo servidor Postgres, un schema por cliente).
    - Base de datos por tenant (aislamiento físico total).
 2. **Cuándo NO usar el default**: compliance que exige aislamiento físico (sanidad, banca), tenants muy grandes con necesidades de rendimiento dedicado.
-3. **El checklist IDOR** (la lección real de hoy): toda query que recibe un `id` externo controlado por el cliente necesita `tenant_id` en el filtro, o una validación explícita del recurso referenciado (ej. `operario_id` de un body) antes de usarlo. Ejemplo anonimizado basado en el bug real de `revisar_cambio_turno` de hoy (sin nombrar Weldix ni el dominio de negocio).
+3. **El checklist IDOR** (la lección real de hoy): toda query que recibe un `id` externo controlado por el cliente necesita `tenant_id` en el filtro, o una validación explícita del recurso referenciado (ej. `operario_id` de un body) antes de usarlo. Ejemplo anonimizado basado en un bug real de revisión de cambio de turno de hoy (sin nombrar el cliente ni su dominio de negocio).
 4. Puntero a los 3 archivos de referencia de abajo.
 
 ### `auth-multitenant.md`
@@ -76,7 +76,7 @@ Contenido:
 - Patrón de superadmin cross-tenant: acceso especial, siempre auditado, nunca el camino por defecto.
 
 ### `testing-multitenant.md`
-- El patrón de fixture "dos tenants reales" (Taller A / Taller B o equivalente genérico) usado hoy en los tests de regresión.
+- El patrón de fixture "dos tenants reales" (Tenant A / Tenant B o equivalente genérico) usado hoy en los tests de regresión.
 - Disciplina de verificación: revertir el fix con `git stash`, confirmar que el test de regresión FALLA contra el código viejo, antes de dar el test por bueno.
 
 ### `billing-stripe.md`
@@ -99,16 +99,16 @@ Tabla explícita de libros/fuentes por agente, verificada leyendo el contenido r
 | *Test Driven Development* | Kent Beck | `test-writer` |
 | OWASP Top 10 | OWASP Foundation | `backend-reviewer` |
 
-La skill `saas-multitenant-architecture` se documenta explícitamente como derivada de experiencia práctica real (auditoría de Weldix), no de un libro — sin inventarle una fuente que no tiene.
+La skill `saas-multitenant-architecture` se documenta explícitamente como derivada de experiencia práctica real (una auditoría de seguridad real), no de un libro — sin inventarle una fuente que no tiene.
 
 ## Testing / verificación
 
 No hay "tests" en el sentido de código ejecutable (son archivos Markdown). La verificación es:
 1. `claude plugin marketplace add <ruta-local-o-repo>` + `claude plugin install saas-toolkit@...` en una sesión de prueba, confirmar que los 4 agentes y la skill aparecen listados y son invocables.
-2. Revisión manual de que ningún archivo menciona "Weldix" ni detalles del negocio del taller (grep de "weldix", "taller", "soldadura" antes de dar el repo por terminado).
+2. Revisión manual de que ningún archivo menciona el nombre del cliente real ni detalles de su negocio (grep de los términos identificativos antes de dar el repo por terminado).
 
 ## Fuera de duda / decisiones ya tomadas
 - Plugin único con todo dentro (no varios plugins separados).
 - Repo público, licencia MIT.
 - Skill con archivos de referencia separados (no todo en un único SKILL.md, no plantillas de código).
-- Ubicación local: `full stack/saas-claude-toolkit`, hermano de Weldix.
+- Ubicación local: `full stack/saas-claude-toolkit`, hermano del proyecto cliente del que nace la skill.

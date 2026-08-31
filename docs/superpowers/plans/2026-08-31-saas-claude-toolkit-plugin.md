@@ -4,7 +4,7 @@
 
 **Goal:** Package Fernando's 4 existing review agents plus one new `saas-multitenant-architecture` skill into an installable Claude Code plugin, published as a public repo with MIT license.
 
-**Architecture:** A single-plugin marketplace (`.claude-plugin/marketplace.json` → `plugins/saas-toolkit/`). The 4 agents are copied byte-for-byte from `~/.claude/agents/`. The new skill is 4 markdown files (`SKILL.md` + 3 reference docs) derived from a real multi-tenant security audit, with content fully anonymized (no "Weldix", "taller", "soldadura").
+**Architecture:** A single-plugin marketplace (`.claude-plugin/marketplace.json` → `plugins/saas-toolkit/`). The 4 agents are copied byte-for-byte from `~/.claude/agents/`. The new skill is 4 markdown files (`SKILL.md` + 3 reference docs) derived from a real multi-tenant security audit, with content fully anonymized (no client-identifying terms).
 
 **Tech Stack:** Plain Markdown + JSON. No build step, no test runner — this is a content/config repo. "Tests" are JSON validity checks, an anonymization grep, and a manual `claude plugin marketplace add` / `install` smoke test.
 
